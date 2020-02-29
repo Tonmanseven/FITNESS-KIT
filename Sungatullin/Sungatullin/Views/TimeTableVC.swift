@@ -25,7 +25,7 @@ class TimeTableVC: UITableViewController {
     fileprivate func refreshSetup() {
         self.tableView.refreshControl = refreshContoll
         refreshContoll.addTarget(self, action: #selector(refreshAction(_:)), for: .valueChanged)
-        refreshContoll.attributedTitle = NSAttributedString(string: "Fetching Weather Data ...")
+        refreshContoll.attributedTitle = NSAttributedString(string: "Update Data ...")
         
     }
     
