@@ -17,7 +17,7 @@ class RequestSessionController {
     private let fitnessUrl = "https://sample.fitnesskit-admin.ru/schedule/get_group_lessons_v2/1/"
     private var modelcontrollObject = ModelController()
     
-    func getRequest(refControll: UIRefreshControl, vc: UIViewController) {
+    func getRequest(refControll: UIRefreshControl, vc: UITableViewController) {
         
         Alamofire.request(fitnessUrl, method: .get).responseJSON { response in
             guard response.result.isSuccess else {
@@ -42,6 +42,9 @@ class RequestSessionController {
             }
             
             self.modelcontrollObject.writeNewItem(sport: self.sportsArray)
+            DispatchQueue.main.async {
+                vc.tableView.reloadData()
+            }
             
         }
     }

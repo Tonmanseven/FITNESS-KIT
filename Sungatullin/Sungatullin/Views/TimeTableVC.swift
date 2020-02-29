@@ -26,6 +26,7 @@ class TimeTableVC: UITableViewController {
         self.tableView.refreshControl = refreshContoll
         refreshContoll.addTarget(self, action: #selector(refreshAction(_:)), for: .valueChanged)
         refreshContoll.attributedTitle = NSAttributedString(string: "Fetching Weather Data ...")
+        
     }
     
     //MARK: viewDidLoad
