@@ -78,34 +78,42 @@ class ModelController {
     
     //MARK: создаем новую запись
     func writeNewItem(sport: [Sports]) {
-        
-        removeAll()
+        print(realm.objects(SportWeekModel.self))
+       
         try! realm.write {
-            for item in sport {
-                let sportsModel = SportWeekModel()
-                sportsModel.name = item.name
-                sportsModel.startTime = item.startTime
-                sportsModel.endTime = item.endTime
-                sportsModel.place = item.place
-                sportsModel.teacher = item.teacher
-                sportsModel.weekDay = item.weekDay
-                sportsModel.descript = item.descript
-                realm.add([sportsModel])
+            
+            if realm.objects(SportWeekModel.self).isEmpty {
+                for item in sport {
+                    let sportsModel = SportWeekModel()
+                    sportsModel.name = item.name
+                    sportsModel.startTime = item.startTime
+                    sportsModel.endTime = item.endTime
+                    sportsModel.place = item.place
+                    sportsModel.teacher = item.teacher
+                    sportsModel.weekDay = item.weekDay
+                    sportsModel.descript = item.descript
+                    realm.add([sportsModel])
+                }
+            } else {
+                for item in sport {
+                    let object = realm.objects(SportWeekModel.self).filter(NSPredicate(format: "name = '\(item.name)' AND startTime = '\(item.startTime)' AND endTime = '\(item.endTime)' AND place = '\(item.place)' AND teacher = '\(item.teacher)' AND weekDay = \(item.weekDay) AND descript = '\(item.descript)'"))
+                    object.setValue(item.name, forKey: "name")
+                    object.setValue(item.startTime, forKey: "startTime")
+                    object.setValue(item.endTime, forKey: "endTime")
+                    object.setValue(item.place, forKey: "place")
+                    object.setValue(item.teacher, forKey: "teacher")
+                    object.setValue(item.weekDay, forKey: "weekDay")
+                    object.setValue(item.descript, forKey: "descript")
+                }
             }
             
         }
     }
-    
-    func removeAll() {
-        try! realm.write {
-            realm.deleteAll()
-        }
-    }
+
     
     func getGetObjectFromRealm(_ section: Int) -> Results<SportWeekModel> {
         let predicate = NSPredicate(format: "weekDay == \(section)")
         let objects = values.filter(predicate)
-        
         return objects
     }
 
